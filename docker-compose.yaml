@@ -1,0 +1,57 @@
+version: '3.9'
+
+x-base_service: &base_service
+
+  volumes:
+    - &v_prod /mnt/hdd0/prj/finance-fastapi/prod:/data
+    - &v_dev /mnt/hdd0/prj/finance-fastapi/dev:/data
+  environment:
+    - TZ='Asia/Seoul'
+  stop_signal: SIGKILL
+  tty: true
+
+name: finace-fastapi
+
+services:
+  
+  prod:
+    <<: *base_service
+    ports:
+      - "${PROD_PORT:-8080}:8080"
+    profiles: ["prod"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    volumes:
+      - *v_prod
+
+  dev:
+    <<: *base_service
+    ports:
+      - "${DEV_PORT:-8081}:8080"
+    profiles: ["dev"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    volumes:
+      - *v_prod
+    command: /bin/bash
+
+
+  #   build:
+  #     context: ./python-backend
+  #     dockerfile: Dockerfile
+  #     target: dev
+
+  #   env_file:
+  #     - .env
+
+  #   ports:
+  #     - "8080:8080"
+
+  #   volumes:
+  #     - ./python-backend:/api
+
+  #   tty: true
