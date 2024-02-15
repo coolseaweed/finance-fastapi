@@ -6,3 +6,5 @@ python-dotenv
 loguru==0.6.0
 numpy
 boto3
+requests
+pandas
