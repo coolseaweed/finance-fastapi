@@ -4,6 +4,8 @@
 
 - swagger page url: `http://<url>/documentation`
 
+## TODO
+- [ ] apply pipenv for requirements auto updates
 
 ### RUN 
 
