@@ -3,8 +3,11 @@ version: '3.9'
 x-base_service: &base_service
 
   volumes:
+    # prod
     - &v_prod /mnt/hdd0/prj/finance-fastapi/prod:/data
+    # dev
     - &v_dev /mnt/hdd0/prj/finance-fastapi/dev:/data
+    - &v_src .:/api
   environment:
     - TZ='Asia/Seoul'
   stop_signal: SIGKILL
@@ -36,22 +39,6 @@ services:
       dockerfile: Dockerfile
       target: dev
     volumes:
-      - *v_prod
+      - *v_dev
+      - *v_src
     command: /bin/bash
-
-
-  #   build:
-  #     context: ./python-backend
-  #     dockerfile: Dockerfile
-  #     target: dev
-
-  #   env_file:
-  #     - .env
-
-  #   ports:
-  #     - "8080:8080"
-
-  #   volumes:
-  #     - ./python-backend:/api
-
-  #   tty: true
